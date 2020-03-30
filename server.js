@@ -40,13 +40,32 @@ server.get('/api/users', (req, res) => {
 server.get('/api/users/:id', (req, res) => {
     // const id = req.params.id;
     const { id } = req.params;
-    res.status(200).send(users[id]);
+    if (users[id]) {
+        res.status(200).send(users[id]);
+    }
+    else {
+        res.status(400).send('Error:  User does not exist!  Please correct the parameters!');
+    }
 });
 
-// PUT request [UPDATE]
-server.put('/api');
+// PUT/PATCH request [UPDATE]
+server.put('/api/users/:id', (req, res) => {
+    const { id } = req.params;
+    if (users[id]) {
+        const patch = req.body;
+        users[id] = patch;
+        res.status(200).send(patch);
+    }
+    else {
+        res.status(400).send('Error:  User does not exist!  Please correct the parameters!');
+    }
+
+});
 
 // DELETE request [DELETE]
+server.delete('/api/users/:id', (req, res) => {
+    
+});
 
 
 
