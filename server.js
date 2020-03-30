@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const port = 5000;
 const server = express();
 server.use(express.json());
+server.use(cors());
 
 const users = [
     {
@@ -64,10 +66,15 @@ server.put('/api/users/:id', (req, res) => {
 
 // DELETE request [DELETE]
 server.delete('/api/users/:id', (req, res) => {
-    
+    const { id } = req.params;
+    if (users[id]) {
+        users.splice(id, 1);
+        res.status(200).json({ results: 'success!' });
+    }
+    else {
+        res.status(400).send('Error:  User does not exist!  Please correct the parameters!');
+    }
 });
-
-
 
 /* ------------------------- */
 
